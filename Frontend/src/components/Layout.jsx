@@ -2,7 +2,7 @@ import React, { createContext, useContext, useEffect, useRef, useState } from 'r
 import { Link } from 'react-router-dom'
 import {
   Shield, LayoutDashboard, FileText, Users, ClipboardList,
-  ScrollText, Menu, X
+  ScrollText, Menu, X, Moon, Sun
 } from 'lucide-react'
 import { cn } from '../utils/cn'
 import toast from 'react-hot-toast'
@@ -29,9 +29,32 @@ export function Layout({
 }) {
   const [mobileOpen, setMobileOpen] = useState(false)
   const [activeSection, setActiveSection] = useState('metrics')
+  const [isDark, setIsDark] = useState(false)
   const mainRef = useRef(null)
   const scrollTargetRef = useRef(null)
   const scrollReleaseTimerRef = useRef(null)
+
+  useEffect(() => {
+    if (localStorage.theme === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+      setIsDark(true)
+      document.documentElement.classList.add('dark')
+    } else {
+      setIsDark(false)
+      document.documentElement.classList.remove('dark')
+    }
+  }, [])
+
+  const toggleDark = () => {
+    if (isDark) {
+      document.documentElement.classList.remove('dark')
+      localStorage.theme = 'light'
+      setIsDark(false)
+    } else {
+      document.documentElement.classList.add('dark')
+      localStorage.theme = 'dark'
+      setIsDark(true)
+    }
+  }
 
   useEffect(() => {
     const main = mainRef.current
@@ -197,6 +220,11 @@ export function Layout({
           </nav>
 
           <div className="flex-1 lg:flex-none" />
+
+          {/* Theme Toggle */}
+          <button onClick={toggleDark} className="p-2 rounded-full hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-500 dark:text-slate-400 transition-colors">
+            {isDark ? <Sun className="w-5 h-5" /> : <Moon className="w-5 h-5" />}
+          </button>
 
           {/* Mobile menu toggle */}
           <button

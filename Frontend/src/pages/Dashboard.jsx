@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react'
-import { motion } from 'framer-motion'
 import { Shield, Printer, Download, FileJson, Zap, Sparkles, ArrowRight } from 'lucide-react'
 import { Layout } from '../components/Layout'
 import { MetricCards } from '../components/MetricCards'
@@ -29,24 +28,13 @@ function Section({ id, eyebrow, title, children }) {
       <div className="absolute top-0 left-8 right-8 h-px bg-gradient-to-r from-transparent via-stone-300/90 to-transparent" />
 
       <div className="max-w-7xl mx-auto">
-        <motion.div
-          initial={{ opacity: 0, y: 12 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: '-50px', root: scrollContainerRef }}
-          transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
-          className="mb-8"
-        >
+        <div className="mb-8">
           <p className="section-eyebrow">{eyebrow}</p>
           <h2 className="text-3xl font-bold text-slate-950 tracking-tight">{title}</h2>
-        </motion.div>
-        <motion.div
-          initial={{ opacity: 0, y: 16 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: '-30px', root: scrollContainerRef }}
-          transition={{ duration: 0.5, delay: 0.1, ease: [0.16, 1, 0.3, 1] }}
-        >
+        </div>
+        <div>
           {children}
-        </motion.div>
+        </div>
       </div>
     </section>
   )
@@ -102,13 +90,9 @@ export function Dashboard() {
   if (loading && !tender) {
     return (
       <div className="flex items-center justify-center h-screen bg-[#f7f9fc]">
-        <motion.div
-          initial={{ opacity: 0, scale: 0.9 }}
-          animate={{ opacity: 1, scale: 1 }}
-          className="text-center"
-        >
+        <div className="text-center">
           <div className="relative mx-auto mb-6 w-16 h-16">
-            <div className="absolute inset-0 rounded-2xl bg-amber-500/20 animate-ping" />
+            <div className="absolute inset-0 rounded-2xl bg-amber-500/20" />
             <div className="relative w-16 h-16 rounded-2xl bg-gradient-to-br from-amber-500 to-amber-700
                             flex items-center justify-center">
               <Shield className="w-8 h-8 text-slate-950" />
@@ -116,7 +100,7 @@ export function Dashboard() {
           </div>
           <p className="text-slate-400 font-semibold">Loading workspace…</p>
           <p className="text-slate-600 text-sm mt-1">Initializing tender intelligence engine</p>
-        </motion.div>
+        </div>
       </div>
     )
   }
@@ -139,15 +123,10 @@ export function Dashboard() {
             {/* Background gradient mesh */}
             <div className="absolute inset-0 gradient-mesh" />
 
-            <motion.div
-              initial={{ opacity: 0, y: 24 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
-              className="relative z-10"
-            >
-              {/* Animated logo */}
+            <div className="relative z-10">
+              {/* Static logo */}
               <div className="relative mx-auto mb-8 w-24 h-24">
-                <div className="absolute inset-0 rounded-3xl bg-amber-500/10 animate-pulse" />
+                <div className="absolute inset-0 rounded-3xl bg-amber-500/10" />
                 <div className="absolute -inset-2 rounded-[28px] bg-gradient-to-br from-amber-500/10 to-transparent blur-xl" />
                 <div className="relative w-24 h-24 rounded-3xl bg-gradient-to-br from-amber-400/20 via-amber-500/10 to-transparent
                                 border border-amber-500/20 flex items-center justify-center">
@@ -180,19 +159,14 @@ export function Dashboard() {
                   </div>
                 ))}
               </div>
-            </motion.div>
+            </div>
           </div>
         ) : (
           <>
             {/* ─── Hero Section ─── */}
             <div className="px-7 lg:px-10 pt-14 pb-12 relative dashboard-hero overflow-hidden">
               <div className="max-w-7xl mx-auto relative z-10">
-                <motion.div
-                  initial={{ opacity: 0, y: 16 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
-                  className="flex flex-col lg:flex-row lg:items-start gap-8"
-                >
+                <div className="flex flex-col lg:flex-row lg:items-start gap-8">
                   {/* Tender info */}
                   <div className="flex-1 min-w-0">
                     <div className="flex items-center gap-3 flex-wrap mb-4">
@@ -237,19 +211,16 @@ export function Dashboard() {
                       ))}
                     </div>
 
-                    <motion.button
+                    <button
                       type="button"
                       onClick={scrollToMetrics}
-                      initial={{ opacity: 0, y: 12 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      transition={{ duration: 0.45, delay: 0.25, ease: [0.16, 1, 0.3, 1] }}
                       className="mt-8 inline-flex items-center gap-2.5 rounded-full border border-amber-300/80 bg-white/88 px-5 py-2.5
                                  text-sm font-bold text-amber-800 shadow-[0_14px_35px_rgba(120,53,15,0.08)] transition-all
                                  hover:-translate-y-0.5 hover:border-amber-400 hover:bg-amber-50/90"
                     >
                       View workspace
                       <ArrowRight className="w-4 h-4 rotate-90" />
-                    </motion.button>
+                    </button>
                   </div>
 
                   {/* Export actions */}
@@ -266,7 +237,7 @@ export function Dashboard() {
                       </a>
                     ))}
                   </div>
-                </motion.div>
+                </div>
               </div>
             </div>
 

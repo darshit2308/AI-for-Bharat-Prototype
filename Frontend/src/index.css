@@ -6,6 +6,7 @@
 
 @layer base {
   * {
+    
     box-sizing: border-box;
   }
 
@@ -41,6 +42,92 @@
   ::selection {
     background: rgba(245, 158, 11, 0.22);
     color: #0f172a;
+  }
+
+  html.dark body {
+    @apply bg-[#050505] text-slate-200;
+  }
+
+  html.dark .bg-\[\#f7f9fc\] {
+    background-color: #050505 !important;
+  }
+
+  html.dark .glass-card {
+    background: #111111 !important;
+    border-color: rgba(255,255,255,0.15) !important;
+  }
+
+  html.dark .dashboard-hero {
+    background: #0a0a0a !important;
+  }
+
+  html.dark .editorial-surface::before {
+    background: #050505 !important;
+  }
+
+  html.dark header {
+    background-color: rgba(10, 10, 10, 0.9) !important;
+    border-color: rgba(255,255,255,0.15) !important;
+  }
+
+  html.dark .bg-white, html.dark .bg-slate-50, html.dark .bg-amber-50, html.dark .bg-emerald-50 {
+    background-color: #111111 !important;
+    color: #f8fafc;
+  }
+  
+  html.dark .bg-white\/85, html.dark .bg-white\/88, html.dark .bg-white\/70, html.dark .bg-white\/84, html.dark .bg-white\/72, html.dark .bg-white\/80, html.dark .bg-white\/90, html.dark .bg-slate-50\/70, html.dark .bg-amber-50\/70 {
+    background-color: rgba(17, 17, 17, 0.85) !important;
+  }
+
+  html.dark .glass-card h1, 
+  html.dark .glass-card h2, 
+  html.dark .glass-card h3,
+  html.dark h1, html.dark h2, html.dark h3,
+  html.dark .text-slate-950, html.dark .text-slate-900, html.dark .text-slate-800 {
+    color: #ffffff !important;
+  }
+
+  html.dark .text-slate-700, html.dark .text-slate-600 {
+    color: #cbd5e1 !important;
+  }
+
+  html.dark .text-slate-500 {
+    color: #94a3b8 !important;
+  }
+
+  html.dark .border-stone-200, html.dark .border-slate-200 {
+    border-color: rgba(255,255,255,0.15) !important;
+  }
+
+  html.dark .form-input {
+    background: #1a1a1a !important;
+    border-color: rgba(255,255,255,0.2) !important;
+    color: #ffffff !important;
+  }
+
+  html.dark .btn-ghost {
+    background: #1a1a1a !important;
+    color: #e2e8f0 !important;
+    border-color: rgba(255,255,255,0.15) !important;
+  }
+
+  html.dark .data-table thead tr {
+    background: #1a1a1a !important;
+    border-color: rgba(255,255,255,0.1) !important;
+  }
+
+  html.dark .data-table tbody tr {
+    border-color: rgba(255,255,255,0.08) !important;
+  }
+
+  html.dark .data-table tbody tr:hover {
+    background: #1f1f1f !important;
+  }
+
+  html.dark .btn-sparkle {
+    background: #222 !important;
+    border-color: #444 !important;
+    color: #fff !important;
   }
 }
 

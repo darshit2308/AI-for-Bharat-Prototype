@@ -54,18 +54,52 @@ The app works out of the box in `offline_deterministic` mode:
 
 If you add `GOOGLE_API_KEY` in `.env`, image OCR upgrades to Gemini Vision automatically.
 
-## Local setup
+## How to Run the Project (Beginner's Guide)
 
-```bash
-python3 -m venv .venv
-.venv/bin/pip install -r requirements.txt
-.venv/bin/uvicorn main:app --host 127.0.0.1 --port 8000
+To use this application, you need to run both the **Backend** (Python) and the **Frontend** (React). You will need two separate terminal windows.
+
+### Step 1: Start the Backend (Terminal Window 1)
+This runs the AI server. Make sure you are in the main project folder.
+
+**For Windows:**
+```powershell
+# 1. Create a Python virtual environment
+python -m venv .venv
+
+# 2. Install the required Python packages (this can take 5-10 minutes)
+.\.venv\Scripts\pip install -r requirements.txt
+
+# 3. Start the backend server
+.\.venv\Scripts\uvicorn main:app --host 127.0.0.1 --port 8000
 ```
 
-Open:
+**For Mac/Linux:**
+```bash
+python3 -m venv .venv
+source .venv/bin/activate
+pip install -r requirements.txt
+uvicorn main:app --host 127.0.0.1 --port 8000
+```
 
-- App: [http://127.0.0.1:8000](http://127.0.0.1:8000)
-- Printable seeded report: open it from the dashboard's `Print Report` action after startup
+### Step 2: Start the Frontend (Terminal Window 2)
+This runs the user interface. Open a *new* terminal window.
+
+```bash
+# 1. Go into the Frontend folder
+cd Frontend
+
+# 2. Install the Node.js packages
+npm install
+
+# 3. Start the website
+npm run dev
+```
+
+### Step 3: Open the App
+Once both terminal windows say they are running, open your web browser and go to:
+👉 **[http://localhost:5173](http://localhost:5173)**
+
+*(Note: You can still view the printable reports from the backend directly if needed).*
 
 ## Seeded demo workspace
 
