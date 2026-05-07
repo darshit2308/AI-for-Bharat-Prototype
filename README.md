@@ -1,4 +1,4 @@
-![![alt text](image-1.png)](image.png)# 🇮🇳 AI-for-Bharat: CRPF Tender Intelligence Console 🇮🇳
+
 
 **An AI-powered procurement evaluation platform that automates bidder eligibility assessment against government tender criteria with complete auditability and transparency.**
 
