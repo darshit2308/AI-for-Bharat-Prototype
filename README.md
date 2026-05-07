@@ -1,105 +1,178 @@
-# CRPF Tender Intelligence Console
+![![alt text](image-1.png)](image.png)# 🇮🇳 AI-for-Bharat: CRPF Tender Intelligence Console 🇮🇳
 
-A full-stack procurement evaluation workspace for the CRPF tender-analysis theme.
+**An AI-powered procurement evaluation platform that automates bidder eligibility assessment against government tender criteria with complete auditability and transparency.**
 
-This repo now runs as a real web application, not just a console MVP. It ingests tender documents and bidder submissions, extracts structured eligibility criteria, evaluates each bidder against every criterion, produces explainable verdicts, surfaces manual-review cases, and keeps an audit trail for every action.
+---
 
-## What the app does
+![CRPF Tender Intelligence Console](https://user-images.githubusercontent.com/3622098/233038924-3f86e1b0-d8e1-4f8a-9a3b-6fda346ec7.png)
+_A placeholder image - consider adding a GIF of the app in action!_
 
-- Upload a tender document and create a procurement workspace.
-- Extract eligibility criteria into structured, reviewable records.
-- Upload bidder submission packs with PDFs, images, text files, or DOCX files.
-- Evaluate each bidder at the criterion level with evidence, found values, and reasons.
-- Mark bidders as `Eligible`, `Not Eligible`, or `Manual Review`.
-- Resolve ambiguous checks through a human-in-the-loop review queue.
-- Export consolidated reports as printable HTML, CSV, or JSON.
-- Maintain an audit trail for document ingestion, extraction, evaluation, and review decisions.
+## 🎯 The Problem
 
-## Stack
+Manually evaluating hundreds of bidders against complex, multi-document tender requirements in Indian government procurement is:
 
-- `FastAPI` for the backend and JSON APIs
-- `Jinja2` and vanilla JS for the frontend
-- `SQLite` as the local audit ledger and report store
-- `PyPDF` for PDF text extraction
-- `python-dotenv` for optional API-key configuration
-- Optional Gemini Vision OCR when `GOOGLE_API_KEY` is configured
+- **Time-Consuming:** Officers spend weeks sifting through thousands of pages.
+- **Error-Prone:** It's easy to miss critical details in dense documents.
+- **Lacks Transparency:** The decision-making process is often opaque and difficult to audit.
 
-## Why SQLite instead of MongoDB here?
+This leads to delays, potential for errors, and a lack of clear, evidence-based decision-making.
 
-For this working local build, SQLite is the right fit:
+## ✨ The Solution
 
-- zero setup for demo and judging
-- strong auditability for joins across tenders, bidders, criteria, evidence, and review decisions
-- easy export and inspection
+The **CRPF Tender Intelligence Console** is a full-stack web application that transforms the tender evaluation process. It ingests tender documents and bidder submissions, uses AI to extract and evaluate criteria, and provides a clear, auditable, and efficient workspace for procurement officers.
 
-If you want, this data layer can be swapped for MongoDB later, but the self-contained hackathon build is better served by an embedded audit-grade database.
+Our platform:
 
-## Current product flow
+- **Automatically extracts** eligibility criteria from tender PDFs.
+- **Evaluates bidders** across both digital and scanned documents using a powerful AI engine.
+- **Provides evidence-based verdicts** with step-by-step reasoning for full transparency.
+- **Flags ambiguous cases** for human review, ensuring accuracy and compliance.
+- **Maintains a complete audit trail** of every action for unparalleled accountability.
 
-1. Tender uploaded
-2. Criteria extracted and normalized
-3. Bidder documents ingested and parsed
-4. Rule-by-rule evaluation runs
-5. Ambiguous checks land in the review queue
-6. Officer decisions update bidder status and audit history
-7. Consolidated report is exported
+## 🚀 Key Features
 
-## Offline mode vs AI-assisted mode
+- **🤖 Intelligent Criteria Extraction:** Parses tender PDFs to automatically identify and structure all eligibility criteria (Technical, Financial, Compliance) using Google Gemini Pro.
+- **📄 Multi-Format Document Ingestion:** Handles digital PDFs, scanned images (with Vision OCR), text files, and DOCX files.
+- **🧠 Vector-Based Semantic Search:** Uses ChromaDB and Google's embeddings to instantly find relevant evidence within bidder documents (RAG pattern).
+- **⚙️ AI-Powered Evaluation Engine:** A robust LangGraph workflow evaluates each criterion, providing a `pass`, `fail`, or `review` verdict with detailed reasoning.
+- **📊 Interactive Evaluation Matrix:** A visual grid that displays the evaluation status of all bidders against all criteria in real-time.
+- **🧑‍⚖️ Human-in-the-Loop Review Queue:** Ambiguous or failed mandatory criteria are automatically flagged for a procurement officer's final decision.
+- **📂 Bidder Dossiers & Risk Scoring:** Compiles all of a bidder's documents and evaluation results into a single dossier, complete with a risk score.
+- **🔐 Complete Audit Trail:** Every action—from document upload to final decision—is logged with timestamps and user details for full auditability.
+- **🇮🇳 India-Specific Parsing:** Includes custom logic to parse Indian financial formats (Crore, Lakh), GST numbers, and other local entities.
 
-The app works out of the box in `offline_deterministic` mode:
+## 🔄 How It Works
 
-- PDFs, text files, and DOCX files are parsed locally
-- bundled demo image evidence uses a seeded transcript
-- unparsed scanned files are surfaced for manual review instead of silently failing
+The system follows a sophisticated workflow to ensure accurate and auditable evaluations.
 
-If you add `GOOGLE_API_KEY` in `.env`, image OCR upgrades to Gemini Vision automatically.
+```mermaid
+graph TD
+    A[1. Tender Setup] --> B{Upload NIT PDF};
+    B --> C[AI Extracts Criteria];
+    C --> D{Store in Database};
 
-## How to Run the Project (Beginner's Guide)
+    E[2. Bidder Ingestion] --> F{Upload Bidder Documents};
+    F --> G[OCR Scanned Docs];
+    G --> H[Chunk & Create Embeddings];
+    H --> I{Store in Vector DB};
 
-To use this application, you need to run both the **Backend** (Python) and the **Frontend** (React). You will need two separate terminal windows.
+    J[3. AI Evaluation - LangGraph Workflow];
+    subgraph J
+        K{For Each Criterion};
+        K --> L[Search Vector DB for Evidence];
+        L --> M[Construct Prompt with Context];
+        M --> N[Evaluate with Gemini Pro];
+        N --> O{Verdict: Pass/Fail/Review};
+    end
 
-### Step 1: Start the Backend (Terminal Window 1)
-This runs the AI server. Make sure you are in the main project folder.
+    P[4. Audit & Decision];
+    subgraph P
+        O --> Q[Flag for Human Review];
+        Q --> R[Officer Makes Final Decision];
+        R --> S[Log to Audit Trail];
+    end
 
-**For Windows:**
-```powershell
-# 1. Create a Python virtual environment
-python -m venv .venv
-
-# 2. Install the required Python packages (this can take 5-10 minutes)
-.\.venv\Scripts\pip install -r requirements.txt
-
-# 3. Start the backend server
-.\.venv\Scripts\uvicorn main:app --host 127.0.0.1 --port 8000
+    D --> J;
+    I --> J;
+    J --> P;
 ```
 
-**For Mac/Linux:**
+## 🛠️ Tech Stack
+
+| Category            | Technology                                                        |
+| ------------------- | ----------------------------------------------------------------- |
+| **Backend**         | `FastAPI`, `Uvicorn`, `Python 3.11`                               |
+| **AI / LLM**        | `Google Generative AI (Gemini Pro)`, `LangChain`, `LangGraph`     |
+| **Vector Database** | `ChromaDB` (with Google Embeddings)                               |
+| **Data & Parsing**  | `SQLite`, `PyPDF`, `PDF2Image`, `Pydantic`                        |
+| **Frontend**        | `React 19`, `Vite`, `React Router`                                |
+| **Styling & UI**    | `TailwindCSS`, `Framer Motion`, `Lucide React`, `React Hot Toast` |
+
+## 🚀 Getting Started
+
+To run this application, you need to start both the **Backend** (Python/FastAPI) and the **Frontend** (React/Vite) in two separate terminals.
+
+### Prerequisites
+
+- Python 3.10+
+- Node.js 18+ and npm
+- An optional `GOOGLE_API_KEY` for full AI features (place it in a `.env` file in the root directory).
+
+### Step 1: Start the Backend (Terminal 1)
+
 ```bash
+# 1. Navigate to the project root
+cd AI-for-Bharat-Prototype
+
+# 2. Create and activate a Python virtual environment
 python3 -m venv .venv
 source .venv/bin/activate
+# On Windows: .\.venv\Scripts\activate
+
+# 3. Install Python dependencies
 pip install -r requirements.txt
-uvicorn main:app --host 127.0.0.1 --port 8000
+
+# 4. Run the backend server
+uvicorn main:app --host 127.0.0.1 --port 8000 --reload
 ```
 
-### Step 2: Start the Frontend (Terminal Window 2)
-This runs the user interface. Open a *new* terminal window.
+The backend will be running at `http://127.0.0.1:8000`.
+
+### Step 2: Start the Frontend (Terminal 2)
 
 ```bash
-# 1. Go into the Frontend folder
+# 1. Navigate to the Frontend directory
 cd Frontend
 
-# 2. Install the Node.js packages
+# 2. Install Node.js dependencies
 npm install
 
-# 3. Start the website
+# 3. Run the frontend development server
 npm run dev
 ```
 
-### Step 3: Open the App
-Once both terminal windows say they are running, open your web browser and go to:
-👉 **[http://localhost:5173](http://localhost:5173)**
+The frontend will be running at `http://localhost:5173`.
 
-*(Note: You can still view the printable reports from the backend directly if needed).*
+### Step 3: Open The App!
+
+🚀 Your **CRPF Tender Intelligence Console** is now live at **[http://localhost:5173](http://localhost:5173)**.
+
+## 📂 Project Structure
+
+```
+├── Frontend/         # React Vite Frontend
+│   ├── src/
+│   │   ├── pages/    # Main pages (Dashboard, etc.)
+│   │   ├── components/ # Reusable React components
+│   │   └── api/      # API client for backend communication
+├── app/              # Core FastAPI application logic
+│   ├── analysis.py   # Evaluation logic
+│   └── db.py         # Database models and interactions
+├── src/              # Python source for AI engine
+│   ├── engine/       # Parsing and Vector Store logic
+│   └── graph/        # LangGraph evaluation workflow
+├── data/             # Data files (tenders, bidders, DBs)
+├── main.py           # FastAPI app entry point
+├── requirements.txt  # Python dependencies
+└── README.md         # You are here!
+```
+
+## 🛣️ Future Roadmap
+
+- [ ] **Real-time Collaboration:** Allow multiple officers to review a tender simultaneously.
+- [ ] **Advanced Analytics:** Provide dashboards with insights into bidder performance and common failure points.
+- [ ] **Deeper Financial Analysis:** Integrate more complex financial health checks (e.g., balance sheet analysis).
+- [ ] **Multi-Language Support:** Extend parsing capabilities to handle tenders in Hindi and other regional languages.
+
+## 🤝 Contributing
+
+This project was built for the **AI-for-Bharat** hackathon. We welcome contributions and ideas to make government procurement more efficient and transparent. Please feel free to fork the repo, open an issue, or submit a pull request.
+
+---
+
+**Built with ❤️ for a more transparent and efficient Bharat.**
+
+_(Note: You can still view the printable reports from the backend directly if needed)._
 
 ## Seeded demo workspace
 
